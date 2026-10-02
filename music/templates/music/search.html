@@ -1,0 +1,41 @@
+{% extends 'music/base.html' %}
+
+{% block content %}
+<h1>جستجو در آهنگ‌ها</h1>
+
+<form method="POST" class="mb-4">
+    {% csrf_token %}
+    <div class="input-group">
+        {{ form.query }}
+        <button type="submit" class="btn btn-primary">جستجو</button>
+    </div>
+</form>
+
+{% if query %}
+    <h4>نتایج برای: <span class="text-warning">{{ query }}</span></h4>
+
+    <div class="row mt-4">
+        {% for song in songs %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    {% if song.cover %}
+                        <img src="{{ song.cover.url }}" class="card-img-top">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ song.title }}</h5>
+                        <p class="card-text">🎤 {{ song.artist.name }}</p>
+                        <a href="{% url 'music:song_detail' song.pk %}"
+                           class="btn btn-primary btn-sm mt-auto">
+                            جزئیات
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p>آهنگی با این عنوان پیدا نشد.</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

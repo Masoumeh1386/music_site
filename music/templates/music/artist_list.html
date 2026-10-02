@@ -1,0 +1,44 @@
+{% extends 'music/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        {% if song.cover %}
+            <img src="{{ song.cover.url }}" class="img-fluid rounded shadow">
+        {% endif %}
+    </div>
+
+    <div class="col-md-8">
+        <h1>{{ song.title }}</h1>
+        <p class="text-muted mb-3">🎤 خواننده: {{ song.artist.name }}</p>
+
+        {% if song.release_date %}
+            <p class="text-muted">📅 تاریخ انتشار: {{ song.release_date }}</p>
+        {% endif %}
+
+        {% if song.description %}
+            <p>{{ song.description }}</p>
+        {% endif %}
+
+        <!-- پخش‌کننده -->
+        <audio controls class="w-100 mt-3">
+            <source src="{{ song.audio_file.url }}" type="audio/mpeg">
+        </audio>
+
+        <!-- دکمه‌ها -->
+        <div class="mt-4">
+            <button onclick="playSong('{{ song.audio_file.url }}')" class="btn btn-primary">
+                ▶️ پخش در پایین صفحه
+            </button>
+            
+            <a href="{{ song.audio_file.url }}" download class="btn btn-success">
+                ⬇️ دانلود
+            </a>
+            
+            <a href="{% url 'music:song_list' %}" class="btn btn-secondary">
+                بازگشت
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

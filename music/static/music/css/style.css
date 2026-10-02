@@ -1,0 +1,264 @@
+
+/* ریست */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Tahoma', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    min-height: 100vh;
+    padding-bottom: 100px; /* برای پخش‌کننده */
+    direction: rtl;
+}
+
+/* سایدبار */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 260px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 30px 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+}
+
+.sidebar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #a855f7;
+    margin-bottom: 40px;
+    text-align: center;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: #ccc;
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background: linear-gradient(90deg, #a855f7, #6366f1);
+    color: #fff;
+    transform: translateX(-5px);
+}
+
+/* محتوای اصلی */
+.main-content {
+    margin-right: 260px;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+/* عنوان‌ها */
+h1, h2 {
+    color: #fff;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+    h1::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #a855f7, #6366f1);
+    margin-top: 10px;
+    border-radius: 2px;
+}
+
+/* کارت‌های آهنگ */
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s;
+    backdrop-filter: blur(5px);
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(168, 85, 247, 0.3);
+    border-color: #a855f7;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    color: #fff;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+/* دکمه‌ها */
+.btn {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s;
+    border: none;
+}
+    .btn-primary {
+    background: linear-gradient(90deg, #a855f7, #6366f1);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(90deg, #9333ea, #4f46e5);
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(168, 85, 247, 0.4);
+}
+
+.btn-success {
+    background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.btn-success:hover {
+    background: linear-gradient(90deg, #059669, #047857);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* پخش‌کننده‌ی چسبیده */
+.sticky-player {
+    position: fixed;
+    bottom: 0;
+    right: 260px;
+    left: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(15px);
+    padding: 15px 30px;
+    border-top: 1px solid rgba(168, 85, 247, 0.3);
+    z-index: 99;
+    display: none; /* پیش‌فرض مخفی */
+}
+
+.sticky-player.visible {
+    display: block;
+}
+
+.sticky-player audio {
+    width: 100%;
+}
+
+/* صفحه‌بندی */
+.pagination .page-link {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: none;
+    margin: 0 3px;
+    border-radius: 8px;
+}
+
+.pagination .page-link:hover {
+    background: linear-gradient(90deg, #a855f7, #6366f1);
+}
+
+.pagination .active .page-link {
+    background: linear-gradient(90deg, #a855f7, #6366f1);
+}
+
+/* پخش‌کننده توی صفحه‌ی جزئیات */
+audio {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+audio::-webkit-media-controls-panel {
+    background-color: #a855f7;
+}
+
+
+/* فرم‌ها */
+.form-label {
+    color: #ccc;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="date"],
+textarea,
+select,
+input[type="file"] {
+    width: 100%;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Tahoma', sans-serif;
+    transition: all 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+}
+
+input[type="file"] {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.form-select {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.form-select option {
+    background: #1a1a2e;
+    color: #fff;
+}
+/* کارت خطرناک */
+.card.border-danger {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: #dc2626 !important;
+}
+
+.text-danger {
+    color: #ef4444 !important;
+}
+
+.text-warning {
+    color: #fbbf24 !important;
+}

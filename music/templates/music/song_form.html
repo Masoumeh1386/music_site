@@ -1,0 +1,34 @@
+{% extends 'music/base.html' %}
+
+{% block content %}
+<h1>{{ form_title|default:'افزودن آهنگ جدید' }}</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ field.label }}: {{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% for field in form %}
+        <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+                <small class="text-muted">{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-success">
+        {{ submit_label|default:'ذخیره آهنگ' }}
+    </button>
+    <a href="{% url 'music:song_list' %}" class="btn btn-secondary">انصراف</a>
+</form>
+{% endblock %}

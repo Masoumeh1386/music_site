@@ -1,0 +1,62 @@
+{% extends 'music/base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<div class="row">
+    {% for song in songs %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                {% if song.cover %}
+                    <img src="{{ song.cover.url }}" class="card-img-top">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ song.title }}</h5>
+                    <p class="card-text mb-2">🎤 {{ song.artist.name }}</p>
+                    <!-- پخش سریع -->
+{% if song.audio_file %}
+    <button onclick="playSong('{{ song.audio_file.url }}')"
+            class="btn btn-primary btn-sm mb-2">
+        ▶️ پخش سریع
+    </button>
+{% else %}
+    <p class="text-muted small">فایل صوتی موجود نیست.</p>
+{% endif %}
+                    
+                    <a href="{% url 'music:song_detail' song.pk %}" 
+                       class="btn btn-secondary btn-sm mt-auto">
+                        جزئیات
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <p>هنوز آهنگی اضافه نشده.</p>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- صفحه‌بندی -->
+{% if is_paginated %}
+    <nav>
+        <ul class="pagination justify-content-center mt-4">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">قبلی</a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">بعدی</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

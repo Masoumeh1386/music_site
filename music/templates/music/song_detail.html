@@ -1,0 +1,95 @@
+{% extends 'music/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        {% if song.cover %}
+            <img src="{{ song.cover.url }}" class="img-fluid rounded shadow">
+        {% endif %}
+    </div>
+
+    <div class="col-md-8">
+        <h1>{{ song.title }}</h1>
+        {% if user.is_authenticated %}
+    <form method="POST" action="{% url 'music:toggle_like' song.pk %}" style="display:inline;">
+        {% csrf_token %}
+        {% if user in song.likes.all %}
+            <button type="submit" class="btn btn-danger btn-sm">
+                ❤️ حذف لایک ({{ song.likes.count }})
+            </button>
+        {% else %}
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+                🤍 لایک ({{ song.likes.count }})
+            </button>
+        {% endif %}
+    </form>
+{% else %}
+    <p>برای لایک <a href="/admin/login/">وارد</a> شو.</p>
+{% endif %}
+        <p class="text-muted mb-3">🎤 خواننده: {{ song.artist.name }}</p>
+
+        {% if song.release_date %}
+            <p class="text-muted">📅 تاریخ انتشار: {{ song.release_date }}</p>
+        {% endif %}
+
+        {% if song.description %}
+            <p>{{ song.description }}</p>
+        {% endif %}
+
+        <!-- پخش‌کننده -->
+        <audio controls class="w-100 mt-3">
+            <source src="{{ song.audio_file.url }}" type="audio/mpeg">
+        </audio>
+
+        <!-- دکمه‌ها -->
+        <div class="mt-4">
+            <button onclick="playSong('{{ song.audio_file.url }}')" class="btn btn-primary">
+                ▶️ پخش در پایین صفحه
+            </button>
+            
+            <a href="{{ song.audio_file.url }}" download class="btn btn-success">
+                ⬇️ دانلود
+            </a>
+            
+            <a href="{% url 'music:song_list' %}" class="btn btn-secondary">
+                بازگشت
+            </a>
+        </div>
+    </div>
+</div>
+{% if user.is_staff %}
+    <hr class="my-4">
+    <h5>مدیریت (فقط ادمین):</h5>
+    <a href="{% url 'music:song_edit' song.pk %}" class="btn btn-warning">
+        ✏️ ویرایش
+    </a>
+    <a href="{% url 'music:song_delete' song.pk %}" class="btn btn-danger">
+        🗑️ حذف
+    </a>
+{% endif %}
+<hr class="my-4">
+
+<h4>نظرات ({{ comments.count }})</h4>
+
+{% if user.is_authenticated %}
+    <form method="POST" class="mb-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">ارسال نظر</button>
+    </form>
+{% else %}
+    <p>برای ثبت نظر، <a href="/admin/login/">وارد</a> شو.</p>
+{% endif %}
+
+{% for comment in comments %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <strong>{{ comment.user.username }}</strong>
+            <small class="text-muted">{{ comment.created_at }}</small>
+            <p class="mt-2">{{ comment.text }}</p>
+        </div>
+    </div>
+{% empty %}
+    <p>هنوز نظری ثبت نشده.</p>
+{% endfor %}
+{% endblock %}

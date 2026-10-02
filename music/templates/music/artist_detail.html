@@ -1,0 +1,40 @@
+{% extends 'music/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3 text-center">
+        {% if artist.image %}
+            <img src="{{ artist.image.url }}" class="img-fluid rounded-circle shadow"
+                 style="max-width: 200px;">
+        {% endif %}
+    </div>
+
+    <div class="col-md-9">
+        <h1>{{ artist.name }}</h1>
+        <p class="text-muted">🎵 {{ artist.songs.count }} آهنگ</p>
+
+        <h3 class="mt-4">آهنگ‌ها:</h3>
+        <div class="row">
+            {% for song in artist.songs.all %}
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>{{ song.title }}</h6>
+                            <button onclick="playSong('{{ song.audio_file.url }}')" 
+                                    class="btn btn-primary btn-sm">
+                                ▶️ پخش
+                            </button>
+                            <a href="{% url 'music:song_detail' song.pk %}" 
+                               class="btn btn-secondary btn-sm">
+                                جزئیات
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>این خواننده هنوز آهنگی نداره.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
